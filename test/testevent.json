@@ -1,0 +1,45 @@
+{
+  "session": {
+    "new": true,
+    "sessionId": "SessionId.8e597057-7466-4f0a-8079-b5884bb7f381",
+    "application": {
+      "applicationId": "amzn1.ask.skill.6a74f381-40cd-457f-a487-801f551e5cef"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AG2SRVV54WXIGRZUCQWA6UDVXT3YET2VQWKU7HYVPDDMPQPUVLQUSMGYE543EJJJIMF3TSVDLLOGZNU6XRXEF5K6VAZP6EVEZKJOEUSTRYGEGAVQ7DIFBH5CWV4UQ5XDAUN5K4ZQRFSLNDMCEGJ73DSISHGAVXXBWCKBDKUKABWP7HNLJEKD2R7232Y4DIVTTVHXXCMAHEFPKJQ"
+    }
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.e9e14dde-db08-4354-88cc-13e0f44172de",
+    "intent": {
+      "name": "GetWatermark",
+      "slots": {
+        "CITY": {
+          "name": "CITY",
+          "value": "düsseldorf"
+        }
+      }
+    },
+    "locale": "de-DE",
+    "timestamp": "2018-01-06T14:17:39Z"
+  },
+  "context": {
+    "AudioPlayer": {
+      "playerActivity": "IDLE"
+    },
+    "System": {
+      "application": {
+        "applicationId": "amzn1.ask.skill.6a74f381-40cd-457f-a487-801f551e5cef"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AG2SRVV54WXIGRZUCQWA6UDVXT3YET2VQWKU7HYVPDDMPQPUVLQUSMGYE543EJJJIMF3TSVDLLOGZNU6XRXEF5K6VAZP6EVEZKJOEUSTRYGEGAVQ7DIFBH5CWV4UQ5XDAUN5K4ZQRFSLNDMCEGJ73DSISHGAVXXBWCKBDKUKABWP7HNLJEKD2R7232Y4DIVTTVHXXCMAHEFPKJQ"
+      },
+      "device": {
+        "supportedInterfaces": {}
+      }
+    }
+  },
+  "version": "1.0"
+}
