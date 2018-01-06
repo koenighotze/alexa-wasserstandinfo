@@ -2,10 +2,9 @@ const cheerio = require('cheerio');
 const Wreck = require('wreck');
 const jsonfile = require('jsonfile');
 
-const fetchPage = function(callback) {
-    console.log("Fetching events...");
-    const city = encodeURI("Düsseldorf")
-    Wreck.get('https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/' + city + '/W/currentmeasurement.json', {
+const fetchPage = function(city, callback) {
+    const url = 'https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/' + encodeURI(city) + '/W/currentmeasurement.json'
+    Wreck.get(url, {
               timeout: 2000
          })
          .then( (res) => {
@@ -17,13 +16,8 @@ const fetchPage = function(callback) {
          });
 };
 
-const toDate = function (str) {
-    const [firstDay, firstMonth, firstYear] = str.split('.');
-    return new Date(firstYear, firstMonth, firstDay);
-}
-
-const handler = function (callback) {
-    fetchPage( (err, body) => {
+const handler = function (city, callback) {
+    fetchPage(city, (err, body) => {
         if (err) {
             callback(err);
         }
@@ -38,7 +32,7 @@ module.exports = {
 };
 
 if (process.env.NODE_ENV === 'development') {
-    handler((err, events) => {
+    handler("Bonn", (err, events) => {
         if (err) {
             console.warn(err);
         }

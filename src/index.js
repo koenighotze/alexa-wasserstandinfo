@@ -11,7 +11,7 @@ const languageStrings = {
     'de-DE': {
         translation: {
             SKILL_NAME: 'Wasserstandinfo',
-            HELP_MESSAGE: 'Ich kann dir Informationen zum aktuellen Wasserstand in deutschen Städten geben. Du kannst zum Beispiel fragen: "Wasserstandinfo Wie hoch ist der Wasserstand in Düsseldorf?"',
+            HELP_MESSAGE: 'Ich kann dir Informationen zum aktuellen Wasserstand in deutschen Städten geben. Dazu nutze ich die Informationen von "www.pegelonline.wsv.de". Du kannst zum Beispiel fragen: "Wasserstandinfo Wie hoch ist der Wasserstand in Düsseldorf?"',
             LAUNCH_MESSAGE: 'Willkommen beim Wasserstandinfo.',
             HELP_REPROMPT: 'Wie kann ich dir helfen?',
             STOP_MESSAGE: 'Auf Wiedersehen!',
@@ -22,18 +22,22 @@ const languageStrings = {
 
 const handlers = {
     'LaunchRequest': function () {
-        // this.emit('AMAZON.HelpIntent');
         const speechOutput = this.t('LAUNCH_MESSAGE');
         this.emit(':ask', speechOutput, speechOutput);
     },
     'GetWatermark': function () {
         const self = this;
 
-        Fetch.handler( function (error, result) {
-            const speechOutput = BuildOutput.build(error, result, self.t.bind(self));
-            console.log("Speechoutput", speechOutput)
+        const citySlot = this.event.request.intent.slots.CITY;
+        let city = ""
+        if (!citySlot || !citySlot.value) {
+            self.emit(':tell', this.t('HELP_MESSAGE'), self.t('SKILL_NAME'), this.t('HELP_MESSAGE'));
+            return
+        }
+        city = citySlot.value.toLowerCase();
 
-
+        Fetch.handler(city, function (error, result) {
+            const speechOutput = BuildOutput.build(error, city, result, self.t.bind(self));
             self.emit(':tell', speechOutput.speech, self.t('SKILL_NAME'), speechOutput.raw);
         });
     },
