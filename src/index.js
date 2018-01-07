@@ -6,6 +6,7 @@ const Fetch = require('./fetch');
 const BuildOutput = require('./buildoutput');
 const Alexa = require('alexa-sdk');
 const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
+const Stations = require('./stations')
 
 const languageStrings = {
     'de-DE': {
@@ -15,7 +16,8 @@ const languageStrings = {
             LAUNCH_MESSAGE: 'Willkommen beim Wasserstandinfo.',
             HELP_REPROMPT: 'Wie kann ich dir helfen?',
             STOP_MESSAGE: 'Auf Wiedersehen!',
-            HELP_CANNOT_GIVE_OUTPUT: 'Ich kann dir gerade nicht helfen. Versuche es später nochmal!'
+            HELP_CANNOT_GIVE_OUTPUT: 'Ich kann dir gerade nicht helfen. Versuche es später nochmal!',
+            HELP_CANNOT_FIND_DATA_FOR_TOWN: 'Sorry, ich kann leider keine Wasserstände für diese Stadt finden.'
         },
     }
 };
@@ -36,10 +38,23 @@ const handlers = {
         }
         city = citySlot.value.toLowerCase();
 
-        Fetch.handler(city, function (error, result) {
-            const speechOutput = BuildOutput.build(error, city, result, self.t.bind(self));
-            self.emit(':tell', speechOutput.speech, self.t('SKILL_NAME'), speechOutput.raw);
-        });
+        Stations.fetchStations()
+                .then(stations => Stations.findStationData(city, stations))
+                .then(cityStation => {
+                    if (!cityStation) {
+                        self.emit(':tell', self.t('HELP_CANNOT_FIND_DATA_FOR_TOWN'), self.t('SKILL_NAME'), self.t('HELP_CANNOT_FIND_DATA_FOR_TOWN'));
+                        return;
+                    }
+
+                    Fetch.handler(cityStation.uuid, function (error, result) {
+                        const speechOutput = BuildOutput.build(error, city, cityStation, result, self.t.bind(self));
+                        self.emit(':tell', speechOutput.speech, self.t('SKILL_NAME'), speechOutput.raw);
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    self.emit(':tell', self.t('HELP_CANNOT_GIVE_OUTPUT'), self.t('SKILL_NAME'), self.t('HELP_CANNOT_GIVE_OUTPUT'));
+                })
     },
     'AMAZON.HelpIntent': function () {
         const speechOutput = this.t('HELP_MESSAGE');
