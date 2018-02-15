@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "alexa-sdk": "^1.0.15",
-    "wreck": "^12.2.0"
+    "wreck": "^13.0.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
