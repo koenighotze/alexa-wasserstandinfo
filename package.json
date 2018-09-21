@@ -18,7 +18,7 @@
   "scripts": {
     "clean": "/bin/rm -fr build/tmp/* build/*zip",
     "lint": "node_modules/jshint/bin/jshint src/ test/",
-    "test": "lab -r console -o stdout -r html -o build/report/coverage.html -r lcov -o build/report/lcov.info",
+    "test": "lab -l -r console -o stdout -r html -o build/report/coverage.html -r lcov -o build/report/lcov.info",
     "package": "pushd build/tmp && cp -rf ../../package.json ../../src/* . && npm i --production && zip -r -1 ../skill.zip * && popd",
     "update": "aws lambda update-function-code --function-name wasserstandinfo --region eu-west-1 --zip-file fileb://build/skill.zip",
     "publish": "aws lambda update-function-code --function-name wasserstandinfo --region eu-west-1 --zip-file fileb://build/skill.zip --publish",
@@ -29,8 +29,8 @@
     "invoke.alias": "aws lambda invoke --function-name wasserstandinfo:PROD --region eu-west-1 --payload file://test/testevent.json out.json"
   },
   "dependencies": {
-    "alexa-sdk": "^1.0.15",
-    "wreck": "^12.2.0"
+    "alexa-sdk": "^1.0.24",
+    "wreck": "^12.5.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -41,6 +41,7 @@
     "lab": "^13.0.2",
     "mocha": "^3.3.0",
     "request": "^2.81.0",
-    "sinon": "^2.1.0"
+    "sinon": "^2.1.0",
+    "snyk": "^1.96.0"
   }
 }
