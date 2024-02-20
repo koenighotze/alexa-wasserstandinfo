@@ -29,8 +29,8 @@
     "invoke.alias": "aws lambda invoke --function-name wasserstandinfo:PROD --region eu-west-1 --payload file://test/testevent.json out.json"
   },
   "dependencies": {
-    "alexa-sdk": "^1.0.24",
-    "wreck": "^12.5.1"
+    "alexa-sdk": "^1.0.25",
+    "wreck": "^14.2.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
